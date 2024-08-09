@@ -1,0 +1,45 @@
+name: RBX Robótica Production CI Pipeline
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Docker Login
+        uses: docker/login-action@v3.0.0
+        with:
+          username: ${{secrets.DOCKERHUB_USER}}
+          password: ${{secrets.DOCKERHUB_PWD}}
+
+        env:
+          ACTIONS_RUNNER_DEBUG: true
+          ACTIONS_STEP_DEBUG: true
+
+      - name: Build and push Docker backend image
+        uses: docker/build-push-action@v5.0.0
+        with: 
+          context: .
+          file: ./docker/Dockerfile_django
+          push: true
+          tags: | 
+            ldamasio/rbx-backend-api-gateway-django-prod:1.0.${{github.run_number}}
+            ldamasio/rbx-backend-api-gateway-django-prod:latest
+        env:
+          ACTIONS_RUNNER_DEBUG: true
+          ACTIONS_STEP_DEBUG: true
+
+      - name: Build and push Docker monolith backend nginx image
+        uses: docker/build-push-action@v5.0.0
+        with: 
+          context: ./backend/
+          file: ./docker/Dockerfile_nginx
+          push: true
+          tags: | 
+            ldamasio/rbx-backend-api-gateway-nginx-prod:1.0.${{github.run_number}}
+            ldamasio/rbx-backend-api-gateway-nginx-prod:latest
