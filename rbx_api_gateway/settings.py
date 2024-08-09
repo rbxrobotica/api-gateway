@@ -3,10 +3,11 @@ from decouple import AutoConfig
 from datetime import timedelta
 import os
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-k@5bp&u%0il*6#2nbo!@46n!4g+x%=^fxwh-%(=#^xb!qc=2t+'
+config = AutoConfig(search_path=BASE_DIR)
+
+SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = True
 
@@ -22,6 +23,7 @@ INSTALLED_APPS = [
 
     'core',
 
+    'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
 ]
@@ -72,20 +74,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'rbx_api_gateway.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -101,10 +99,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
