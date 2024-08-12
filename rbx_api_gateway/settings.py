@@ -122,3 +122,9 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [
+   "https://www.rbxrobotica.com.br",
+   "https://rbxrobotica.com.br",
+   "https://api-gateway.rbxrobotica.com.br",
+]
