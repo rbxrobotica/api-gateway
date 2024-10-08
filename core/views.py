@@ -36,6 +36,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             samesite='None',
         )
 
+        with open('superdebug.log', "a") as arquivo:
+            arquivo.write(f"Peguei o user: {response}\n")
+
         return response
 
 
