@@ -45,6 +45,7 @@ SIMPLE_JWT = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -115,10 +116,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'core.CustomUser'
 
-CORS_ALLOWED_ORIGINS = [
-    "https://www.rbxrobotica.com.br",
-    "https://rbxrobotica.com.br",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "https://www.rbxrobotica.com.br",
+#     "https://rbxrobotica.com.br",
+# ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -126,4 +129,12 @@ CSRF_TRUSTED_ORIGINS = [
    "https://www.rbxrobotica.com.br",
    "https://rbxrobotica.com.br",
    "https://api-gateway.rbxrobotica.com.br",
+   "http://localhost:3000",
 ]
+
+# Cookies para HttpOnly
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SAMESITE = 'None'
+
